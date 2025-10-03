@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:background="#FF5722"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ui.PersonasActivity">
+
+    <SearchView
+        android:id="@+id/txtBuscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".9">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/registrosCandil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="20dp"
+            android:src="@drawable/baseline_person_add_24" />
+
+        <!--  <com.google.android.material.floatingactionbutton.FloatingActionButton
+                  android:id="@+id/btnReportes"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="bottom|left"
+                  android:layout_margin="20dp"
+                  android:src="@drawable/baseline_add_chart_24"/>-->
+
+        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--            android:id="@+id/btnSocio"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="bottom|left"-->
+        <!--            android:layout_margin="20dp"-->
+        <!--            android:src="@drawable/baseline_person_24"-->
+        <!--            />-->
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <!--
+
+       listar todas las personas
+
+       contar cuantas motos tiene
+
+       editar las motos de esa persona si es posible eliminarlos
+
+       -->
+
+
+</LinearLayout>
