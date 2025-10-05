@@ -16,6 +16,12 @@
         android:theme="@style/Theme.MOTOS"
         tools:targetApi="31">
         <activity
+            android:name=".MotosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CrudMotoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.DiasActivity"
             android:exported="false" />
         <activity

@@ -2,69 +2,291 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
-    android:background="#FF5722"
-    android:fitsSystemWindows="true"
-    android:gravity="center"
+    android:layout_margin="25sp"
     android:orientation="vertical"
-    tools:context=".ui.PersonasActivity">
+    tools:context=".MainActivity">
 
     <SearchView
-        android:id="@+id/txtBuscar"
+        android:id="@+id/txtBuscador"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".9">
+        android:layout_height="match_parent"
+        android:layout_marginTop="25sp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/registrosCandil"
+            android:id="@+id/registrosPersonas"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnRegistro"
+            android:id="@+id/btnIngresos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:layout_margin="20dp"
-            android:src="@drawable/baseline_person_add_24" />
-
-        <!--  <com.google.android.material.floatingactionbutton.FloatingActionButton
-                  android:id="@+id/btnReportes"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="bottom|left"
-                  android:layout_margin="20dp"
-                  android:src="@drawable/baseline_add_chart_24"/>-->
-
-        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-        <!--            android:id="@+id/btnSocio"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="bottom|left"-->
-        <!--            android:layout_margin="20dp"-->
-        <!--            android:src="@drawable/baseline_person_24"-->
-        <!--            />-->
-
+            android:src="@drawable/baseline_create_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-    <!--
-
-       listar todas las personas
-
-       contar cuantas motos tiene
-
-       editar las motos de esa persona si es posible eliminarlos
-
-       -->
-
-
 </LinearLayout>
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:id="@+id/main"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:layout_margin="25dp"-->
+    <!--    android:background="#FF3D00"-->
+    <!--    android:orientation="vertical"-->
+
+
+    <!--        android:layout_weight=".9">-->
+
+
+    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+    <!--</LinearLayout>-->
+
+
+    <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--            android:id="@+id/btnEgresos"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="bottom|left"-->
+    <!--            android:layout_margin="20dp"-->
+    <!--            android:src="@drawable/baseline_remove_24" />-->
+
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:background="#FFC400"-->
+    <!--    tools:context=".ui.PersonasActivity">-->
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="#FFC400"-->
+
+    <!--        android:layout_margin="25sp"-->
+    <!--        android:orientation="vertical">-->
+
+    <!--        <SearchView-->
+    <!--            android:id="@+id/txtBuscar"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--        &lt;!&ndash;    <LinearLayout&ndash;&gt;-->
+    <!--        &lt;!&ndash;        android:id="@+id/linearLayout"&ndash;&gt;-->
+    <!--        &lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+    <!--        &lt;!&ndash;        android:layout_height="match_parent">&ndash;&gt;-->
+
+
+    <!--        &lt;!&ndash;    </LinearLayout>&ndash;&gt;-->
+
+
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/linearLayout1"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:layout_marginTop="25dp"-->
+    <!--            android:background="#FF0000"-->
+    <!--            android:orientation="vertical"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/txtBuscar">-->
+
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/registrosPersonas"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--    </LinearLayout>-->
+
+
+    <!--    &lt;!&ndash;    <com.google.android.material.appbar.AppBarLayout&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:background="#FF3D00">&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;        <com.google.android.material.search.SearchBar&ndash;&gt;-->
+    <!--    &lt;!&ndash;            android:id="@+id/searchBar"&ndash;&gt;-->
+    <!--    &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+    <!--    &lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+    <!--    &lt;!&ndash;            android:hint="Buscar Stiker..." />&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    </com.google.android.material.appbar.AppBarLayout>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash; RecyclerView &ndash;&gt;-->
+    <!--    &lt;!&ndash;    <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:id="@+id/registrosPersonas"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_height="match_parent"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:clipToPadding="false"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:paddingTop="8dp"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:paddingBottom="88dp"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        app:layout_behavior="@string/appbar_scrolling_view_behavior" />&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <com.google.android.material.floatingactionbutton.FloatingActionButton&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:id="@+id/fabAdd"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_gravity="bottom|end"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:layout_margin="16dp"&ndash;&gt;-->
+    <!--    &lt;!&ndash;        android:src="@drawable/baseline_create_24" />&ndash;&gt;-->
+
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--    &lt;!&ndash; Empty State &ndash;&gt;-->
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/emptyState"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:gravity="center"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="120dp"-->
+    <!--            android:layout_height="120dp"-->
+    <!--            android:src="@drawable/baseline_person_add_24" />-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="16dp"-->
+    <!--            android:text="No se encontraron motos"-->
+    <!--            android:textColor="?attr/colorOnSurfaceVariant"-->
+    <!--            android:textSize="18sp" />-->
+
+    <!--    </LinearLayout>-->
+
+
+    <!-- FAB -->
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fabAdd"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom|end"-->
+    <!--        android:layout_margin="16dp"-->
+    <!--        android:src="@drawable/ic_add"-->
+    <!--        app:tint="@android:color/white" />-->
+
+    <!--    &lt;!&ndash; SearchView Expandido &ndash;&gt;-->
+    <!--    <com.google.android.material.search.SearchView-->
+    <!--        android:id="@+id/searchView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:layout_anchor="@id/searchBar" />-->
+
+
+    <!--    <com.google.android.material.appbar.AppBarLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">-->
+
+    <!--        <com.google.android.material.appbar.MaterialToolbar-->
+    <!--            android:id="@+id/toolbar"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="?attr/actionBarSize"-->
+    <!--            android:background="?attr/colorPrimary"-->
+    <!--            app:title="" />-->
+
+    <!--        &lt;!&ndash; SearchView integrado en AppBar &ndash;&gt;-->
+    <!--        <com.google.android.material.search.SearchBar-->
+    <!--            android:id="@+id/searchBar"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_margin="16dp"-->
+    <!--            android:hint="Buscar motos..."-->
+    <!--            app:strokeWidth="0dp" />-->
+
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:id="@+id/main"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:layout_margin="20dp"-->
+    <!--    android:background="#FF5722"-->
+    <!--    android:fitsSystemWindows="true"-->
+    <!--    android:gravity="center"-->
+    <!--    android:orientation="vertical"-->
+    <!--    tools:context=".ui.PersonasActivity">-->
+
+    <!--    <SearchView-->
+    <!--        android:id="@+id/txtBuscar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content" />-->
+
+    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_weight=".9">-->
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/registrosPersonas"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
+
+    <!--&lt;!&ndash;        <com.google.android.material.floatingactionbutton.FloatingActionButton&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:id="@+id/btnRegistro"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:layout_gravity="bottom|right"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:layout_margin="20dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:src="@drawable/baseline_person_add_24" />&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;  <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--                  android:id="@+id/btnReportes"-->
+    <!--                  android:layout_width="wrap_content"-->
+    <!--                  android:layout_height="wrap_content"-->
+    <!--                  android:layout_gravity="bottom|left"-->
+    <!--                  android:layout_margin="20dp"-->
+    <!--                  android:src="@drawable/baseline_add_chart_24"/>&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;        <com.google.android.material.floatingactionbutton.FloatingActionButton&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/btnSocio"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_gravity="bottom|left"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_margin="20dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:src="@drawable/baseline_person_24"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            />&ndash;&gt;-->
+
+
+    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+    <!--    &lt;!&ndash;-->
+
+    <!--       listar todas las personas-->
+
+    <!--       contar cuantas motos tiene-->
+
+    <!--       editar las motos de esa persona si es posible eliminarlos-->
+
+    <!--       &ndash;&gt;-->
+
+
+    <!--</LinearLayout>-->
