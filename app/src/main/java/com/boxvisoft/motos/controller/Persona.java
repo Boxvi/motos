@@ -47,5 +47,12 @@ public class Persona {
         }
     }
 
+    public static class PersonaNombres {
+        private String nombre;
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+    }
 
 }

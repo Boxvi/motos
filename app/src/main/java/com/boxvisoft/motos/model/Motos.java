@@ -99,4 +99,18 @@ public class Motos {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    @Override
+    public String toString() {
+        return "Motos{" +
+                "idColeccion='" + idColeccion + '\'' +
+                ", color='" + color + '\'' +
+                ", moto='" + moto + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", placa='" + placa + '\'' +
+                ", responsable='" + responsable + '\'' +
+                ", sticker='" + sticker + '\'' +
+                ", telefono='" + telefono + '\'' +
+                '}';
+    }
 }

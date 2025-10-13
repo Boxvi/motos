@@ -19,7 +19,7 @@
             android:name=".MotosActivity"
             android:exported="false" />
         <activity
-            android:name=".CrudMotoActivity"
+            android:name=".ui.CrudMotoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.DiasActivity"

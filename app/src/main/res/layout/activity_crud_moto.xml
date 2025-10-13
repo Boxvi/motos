@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_margin="25sp"
     android:fillViewport="true"
-    tools:context=".CrudMotoActivity">
+    tools:context=".ui.CrudMotoActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -49,18 +49,40 @@
                 android:layout_marginTop="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout1">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout1"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/txtNombres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="NOMBRES"
+                    android:hint="SELECCIONAR O CREAR NOMBRE"
                     android:inputType="text"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:completionThreshold="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/textInputLayout2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textInputLayout1">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/txtNombres"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="NOMBRES"-->
+<!--                    android:inputType="text"-->
+<!--                    android:textSize="25sp" />-->
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout3"
@@ -146,16 +168,19 @@
                 android:layout_marginTop="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
-                <com.google.android.material.textfield.TextInputEditText
+
+                <AutoCompleteTextView
                     android:id="@+id/txtTrabajadorDe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:hint="TRABAJADOR DE"
                     android:inputType="text"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:completionThreshold="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -188,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:text="EDITAR"
                     android:textSize="25sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -200,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:text="BORRAR"
                     android:textSize="25sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

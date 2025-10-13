@@ -89,6 +89,10 @@ public class MotosController {
                 .addOnFailureListener(listener::onError);
     }
 
+//    private void getAllNombres(On) {
+//
+//    }
+
 
     //        db.collection(COLLECTION_NAME).get()
 //                .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -159,5 +163,10 @@ public class MotosController {
         void onError(Exception e);
     }
 
+    private interface OnNombres {
+        void onNombres(List<Persona.PersonaNombres> nombres);
+
+        void onError(Exception e);
+    }
 
 }
