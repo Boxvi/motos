@@ -27,6 +27,7 @@ import com.boxvisoft.motos.controller.MotosController;
 import com.boxvisoft.motos.databinding.ActivityMainBinding;
 import com.boxvisoft.motos.model.License;
 import com.boxvisoft.motos.model.Motos;
+import com.boxvisoft.motos.ui.CrudMotoActivity;
 import com.boxvisoft.motos.ui.DiasActivity;
 import com.boxvisoft.motos.ui.PersonasActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +38,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
+
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -183,33 +186,6 @@ public class MainActivity extends AppCompatActivity {
         context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
-//    private void descargarEInstalarAPK(Context context, String apkUrl) {
-//        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
-//        request.setTitle("Descargando actualización...");
-//        request.setDescription("Espere un momento");
-//        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk");
-//        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//
-//        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-//        long downloadId = manager.enqueue(request);
-//
-//        // Escuchar cuando termine la descarga
-//        BroadcastReceiver onComplete = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context ctxt, Intent intent) {
-//                Intent installIntent = new Intent(Intent.ACTION_VIEW);
-//                installIntent.setDataAndType(
-//                        Uri.parse("file://" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/update.apk"),
-//                        "application/vnd.android.package-archive");
-//                installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(installIntent);
-//                context.unregisterReceiver(this);
-//            }
-//        };
-//
-//        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-//    }
-
 
     private void checkLicense() {
         // ⬇️⬇️⬇️ CORREGIR: usar getLong() en lugar de getString() ⬇️⬇️⬇️
@@ -233,9 +209,13 @@ public class MainActivity extends AppCompatActivity {
         btnBike = findViewById(R.id.btnBike);
         btnToday = findViewById(R.id.btnToday);
 
-        btnPersonas.setOnClickListener(view -> abrirPersonas());
+//        btnPersonas.setOnClickListener(view -> abrirPersonas());
+        btnPersonas.setVisibility(View.GONE);
+
         btnBike.setOnClickListener(view -> abrirMotos());
-        btnToday.setOnClickListener(view -> abrirHoy());
+
+//        btnToday.setOnClickListener(view -> abrirHoy());
+        btnToday.setVisibility(View.GONE);
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -257,8 +237,19 @@ public class MainActivity extends AppCompatActivity {
                             mostrarDialogoInformacionConOpciones(moto);
 
                         } else {
+                            AlertDialog.Builder builderOpciones = new AlertDialog.Builder(MainActivity.this);
+                            builderOpciones.setTitle("El Codigo no existe");
+                            builderOpciones.setMessage("DESEA CREAR UNA NUEVA MOTO?");
+                            builderOpciones.setPositiveButton("OK", (dialog, which) -> {
 
-                            Toast.makeText(MainActivity.this, "El codigo no existe", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, CrudMotoActivity.class);
+                                intent.putExtra("TITULO", "REGISTRO DE MOTO");
+                                startActivity(intent);
+                            });
+                            builderOpciones.setNegativeButton("Cancelar", (dialog, which) -> {
+                                Toast.makeText(MainActivity.this, "Operación cancelada", Toast.LENGTH_SHORT).show();
+                            });
+                            builderOpciones.show();
                         }
                     }
 
@@ -274,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void mostrarDialogoOpciones(Motos moto) {
-        final String[] opciones = {"Cobrar", "Verificar", "Editar", "Eliminar"};
+        final String[] opciones = {"Cobrar", "Editar"};
 
         AlertDialog.Builder builderOpciones = new AlertDialog.Builder(this);
         builderOpciones.setTitle("¿Qué desea hacer?, Seleccione una opcion para " + moto.getSticker());
@@ -283,19 +274,21 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     // Cobrar
 //                    realizarCobro(moto);
+                    Toast.makeText(this, "PROXIMAMENTE", Toast.LENGTH_SHORT).show();
                     break;
+
                 case 1:
+                    // Editar
+                    Intent intent = new Intent(this, CrudMotoActivity.class);
+                    intent.putExtra("TITULO", "EDITAR MOTOS");
+                    intent.putExtra("ID", moto.getIdColeccion());
+                    startActivity(intent);
+                    break;
+                case 2:
                     // Verificar
 //                    verificarMoto(moto);
                     break;
-                case 2:
-                    // Editar
-//                    editarMoto(moto);
-                    break;
-                case 3:
-                    // Eliminar
-//                    eliminarMoto(moto);
-                    break;
+
             }
         });
 
@@ -333,20 +326,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void abrirPersonas() {
-        Intent intent = new Intent(this, PersonasActivity.class);
-        startActivity(intent);
-        finish();
+//        Intent intent = new Intent(this, PersonasActivity.class);
+//        startActivity(intent);
+//        finish();
     }
 
     private void abrirHoy() {
-        Toast.makeText(this, "ABRIR HOY", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "ABRIR HOY PROXIMAMENTE", Toast.LENGTH_SHORT).show();
 //        Intent intent = new Intent(this, CrudMotoActivity.class);
 //        startActivity(intent);
 //        finish();
     }
 
     private void abrirMotos() {
-//        Toast.makeText(this, "ABRIR MOTOS", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MotosActivity.class);
         startActivity(intent);
         finish();
@@ -472,5 +464,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
 }
+
+
+//    private void descargarEInstalarAPK(Context context, String apkUrl) {
+//        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
+//        request.setTitle("Descargando actualización...");
+//        request.setDescription("Espere un momento");
+//        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk");
+//        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//
+//        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+//        long downloadId = manager.enqueue(request);
+//
+//        // Escuchar cuando termine la descarga
+//        BroadcastReceiver onComplete = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context ctxt, Intent intent) {
+//                Intent installIntent = new Intent(Intent.ACTION_VIEW);
+//                installIntent.setDataAndType(
+//                        Uri.parse("file://" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/update.apk"),
+//                        "application/vnd.android.package-archive");
+//                installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(installIntent);
+//                context.unregisterReceiver(this);
+//            }
+//        };
+//
+//        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//    }
