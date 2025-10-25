@@ -45,6 +45,15 @@ public class MotosController {
                 })
                 .addOnFailureListener(listener::onError);
     }
+    public void getMotoById(String id, OnMotoAddedListener listener) {
+        db.collection(COLLECTION_NAME).document(id).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    Motos moto = documentSnapshot.toObject(Motos.class);
+                    moto.setIdColeccion(documentSnapshot.getId());
+                    listener.onMotoAdded(moto);
+                })
+                .addOnFailureListener(listener::onError);
+    }
 
     public void getMotoBySticker(String sticker, OnMotoAddedListener listener) {
         db.collection(COLLECTION_NAME).whereEqualTo("sticker", sticker).get()
@@ -112,8 +121,8 @@ public class MotosController {
 //                .addOnFailureListener(listener::onError);
 
 
-    public void updateMoto(Motos moto, OnMotoUpdatedListener listener) {
-        db.collection(COLLECTION_NAME).document(moto.getIdColeccion())
+    public void updateMoto(String id,Motos moto, OnMotoUpdatedListener listener) {
+        db.collection(COLLECTION_NAME).document(id)
                 .set(moto)
                 .addOnSuccessListener(aVoid -> listener.onMotoUpdated(moto))
                 .addOnFailureListener(listener::onError);
@@ -132,6 +141,7 @@ public class MotosController {
 
         void onError(Exception e);
     }
+
 
     public interface OnMotosLoadedListener {
         void onMotosLoaded(List<Motos> motos);

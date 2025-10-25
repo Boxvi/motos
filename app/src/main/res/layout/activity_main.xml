@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!--    &lt;!&ndash; Layout principal para centrar el contenido &ndash;&gt;-->
+    <!--    android:background="#FF3D00"-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -76,7 +77,6 @@
 </androidx.coordinatorlayout.widget.CoordinatorLayout><!--
        mostrar un dialog con las opciones por ejemplo
 
-       no exite "HACER CRUD DE MOTOS"
 
        exite -> cobrar o verificar
 

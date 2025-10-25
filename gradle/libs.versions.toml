@@ -10,6 +10,7 @@ constraintlayout = "2.2.1"
 navigationFragment = "2.9.5"
 navigationUi = "2.9.5"
 activity = "1.9.3"
+google = '4.4.3'
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -27,4 +28,4 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
+android-services = { id = "com.google.gms.google-services", version.ref = "google" }

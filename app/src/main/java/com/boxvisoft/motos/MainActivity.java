@@ -1,8 +1,17 @@
 package com.boxvisoft.motos;
 
+import static com.google.firebase.database.collection.BuildConfig.VERSION_CODE;
+
+import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.boxvisoft.motos.controller.MotosController;
 import com.boxvisoft.motos.databinding.ActivityMainBinding;
@@ -20,8 +30,10 @@ import com.boxvisoft.motos.model.Motos;
 import com.boxvisoft.motos.ui.DiasActivity;
 import com.boxvisoft.motos.ui.PersonasActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.collection.BuildConfig;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -39,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton btnPersonas, btnBike, btnToday;
 
     private MotosController motosController;
+
+    // AKI VAS CAMBIANDO LA VERSION
+    private final int VERSION = 5;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
                         if (Objects.equals(sharedPreferences.getString("uuid", null), documentSnapshot.getString("uuid"))) {
                             checkLicense();
+
+                            System.out.println("hgola" + documentSnapshot.getString("uuid"));
+
                         } else {
                             showInUseDialog();
                         }
@@ -69,18 +87,141 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+        db.collection("config").document("app_version")
+                .get().
+                addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        long remoteVersion = document.getLong("versionCode");
+                        String notas = document.getString("notas");
+                        String apkUrl = document.getString("apkUrl");
+
+                        System.out.println(document.getLong("versionCode"));
+
+                        if (remoteVersion > VERSION) {
+                            mostrarDialogoActualizacion(this, notas, apkUrl);
+
+                        }
+
+                    }
+
+
+                });
     }
 
+    private void mostrarDialogoActualizacion(Context context, String notas, String apkUrl) {
+        new AlertDialog.Builder(context)
+                .setTitle("Nueva versión disponible")
+                .setMessage("Notas:\n" + notas + "\n\n¿Deseas actualizar ahora?")
+                .setPositiveButton("Actualizar", (dialog, which) -> descargarEInstalarAPK(context, apkUrl))
+                .setNegativeButton("Más tarde", null)
+                .show();
+    }
+
+    private void descargarEInstalarAPK(Context context, String apkUrl) {
+        String filename = "update.apk"; // Nombre de tu archivo
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
+        request.setTitle("Descargando actualización...");
+        request.setDescription("Espere un momento");
+        // Usamos el directorio de descargas públicas
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        long downloadId = manager.enqueue(request);
+
+        // Escuchar cuando termine la descarga
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context ctxt, Intent intent) {
+                long completedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+
+                // Verificamos que sea la descarga que iniciamos
+                if (completedDownloadId == downloadId) {
+
+                    // 1. OBTENER LA RUTA DEL ARCHIVO
+                    Uri apkUri = manager.getUriForDownloadedFile(downloadId);
+
+                    if (apkUri != null) {
+
+                        // 2. CONVERTIR A URI SEGURA CON FILEPROVIDER (necesario desde API 24)
+                        // NOTA: El FileProvider necesita un objeto File, no solo la Uri
+                        // Hay que consultar el DownloadManager para obtener la ruta absoluta
+                        // Una forma más simple es obtener el archivo de forma manual ya que sabemos la ruta,
+                        // y luego usar FileProvider. Esto depende de cómo se configure el destino.
+
+                        File file = new File(
+                                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                                filename
+                        );
+
+                        // Asegúrate de que tu authority coincida con el de AndroidManifest
+                        String authority = context.getPackageName() + ".provider";
+                        Uri contentUri = FileProvider.getUriForFile(context, authority, file);
+
+
+                        // 3. INICIAR LA INSTALACIÓN
+                        Intent installIntent = new Intent(Intent.ACTION_INSTALL_PACKAGE); // Usar ACTION_INSTALL_PACKAGE para instalar APK
+                        installIntent.setData(contentUri);
+                        installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION); // MUY IMPORTANTE
+
+                        try {
+                            context.startActivity(installIntent);
+                        } catch (Exception e) {
+                            // Manejo de error si no se encuentra el instalador o si faltan permisos
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // Desregistrar el receptor
+                    context.unregisterReceiver(this);
+                }
+            }
+        };
+
+        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
+
+//    private void descargarEInstalarAPK(Context context, String apkUrl) {
+//        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
+//        request.setTitle("Descargando actualización...");
+//        request.setDescription("Espere un momento");
+//        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk");
+//        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//
+//        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+//        long downloadId = manager.enqueue(request);
+//
+//        // Escuchar cuando termine la descarga
+//        BroadcastReceiver onComplete = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context ctxt, Intent intent) {
+//                Intent installIntent = new Intent(Intent.ACTION_VIEW);
+//                installIntent.setDataAndType(
+//                        Uri.parse("file://" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/update.apk"),
+//                        "application/vnd.android.package-archive");
+//                installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(installIntent);
+//                context.unregisterReceiver(this);
+//            }
+//        };
+//
+//        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//    }
+
+
     private void checkLicense() {
+        // ⬇️⬇️⬇️ CORREGIR: usar getLong() en lugar de getString() ⬇️⬇️⬇️
         long expirationTime = sharedPreferences.getLong("expirationTime", 0);
+
         if (expirationTime == 0 || System.currentTimeMillis() >= expirationTime) {
-            Toast.makeText(this, "la licencia ha expirado" + new Date(expirationTime), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "La licencia ha expirado: " + new Date(expirationTime), Toast.LENGTH_SHORT).show();
             showExpiredDialog();
         } else {
             startApp();
             Toast.makeText(this, "License is valid until: " + new Date(expirationTime), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private void startApp() {
@@ -329,5 +470,7 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .show();
     }
+
+
 
 }
