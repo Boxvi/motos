@@ -55,8 +55,8 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
         public PersonasViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txvNombres = itemView.findViewById(R.id.txvNombres);
-            txvNumMotos = itemView.findViewById(R.id.txvNumMotos);
+            txvNombres = itemView.findViewById(R.id.tvNombre);
+            txvNumMotos = itemView.findViewById(R.id.tvCantidadMotos);
         }
     }
 }

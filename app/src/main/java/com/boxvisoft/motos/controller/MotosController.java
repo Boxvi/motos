@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +46,7 @@ public class MotosController {
                 })
                 .addOnFailureListener(listener::onError);
     }
+
     public void getMotoById(String id, OnMotoAddedListener listener) {
         db.collection(COLLECTION_NAME).document(id).get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -98,30 +100,8 @@ public class MotosController {
                 .addOnFailureListener(listener::onError);
     }
 
-//    private void getAllNombres(On) {
-//
-//    }
 
-
-    //        db.collection(COLLECTION_NAME).get()
-//                .addOnSuccessListener(queryDocumentSnapshots -> {
-//                    Set<String> nombresSet = new HashSet<>(); //// evita duplicados
-//
-//                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-//                        String nombre = doc.getString("nombre");
-//                        if (nombre != null) {
-//                            nombresSet.add(nombre);
-//                        }
-//                    }
-//
-//                    List<String> nombresList = new ArrayList<>(nombresSet);
-//
-//                    Log.d("PersonasController", "Nombres: " + nombresList);
-//                })
-//                .addOnFailureListener(listener::onError);
-
-
-    public void updateMoto(String id,Motos moto, OnMotoUpdatedListener listener) {
+    public void updateMoto(String id, Motos moto, OnMotoUpdatedListener listener) {
         db.collection(COLLECTION_NAME).document(id)
                 .set(moto)
                 .addOnSuccessListener(aVoid -> listener.onMotoUpdated(moto))
@@ -132,6 +112,40 @@ public class MotosController {
         db.collection(COLLECTION_NAME).document(id)
                 .delete()
                 .addOnSuccessListener(aVoid -> listener.onMotoDeleted(id))
+                .addOnFailureListener(listener::onError);
+    }
+
+    public void getPersonasConMotosAgrupadas(OnPersonasConMotosListener listener) {
+        db.collection(COLLECTION_NAME).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    Map<String, Persona.ResposableConMotos> personasMap = new HashMap<>();
+
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        String responsable = doc.getString("responsable");
+                        if (responsable != null) {
+                            if (!personasMap.containsKey(responsable)) {
+                                personasMap.put(responsable, new Persona.ResposableConMotos(responsable));
+                            }
+
+                            Motos moto = new Motos();
+                            moto.setIdColeccion(doc.getId());
+                            moto.setColor(doc.getString("color"));
+                            moto.setMoto(doc.getString("moto"));
+                            moto.setNombre(doc.getString("nombre"));
+                            moto.setPlaca(doc.getString("placa"));
+                            moto.setResponsable(doc.getString("responsable"));
+                            moto.setSticker(doc.getString("sticker"));
+                            moto.setTelefono(doc.getString("telefono"));
+
+                            personasMap.get(responsable).agregarMoto(moto);
+                        }
+                    }
+
+                    List<Persona.ResposableConMotos> personasList = new ArrayList<>(personasMap.values());
+                    Collections.sort(personasList, (p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
+                    listener.onPersonasConMotosLoaded(personasList);
+
+                })
                 .addOnFailureListener(listener::onError);
     }
 
@@ -175,6 +189,12 @@ public class MotosController {
 
     private interface OnNombres {
         void onNombres(List<Persona.PersonaNombres> nombres);
+
+        void onError(Exception e);
+    }
+
+    public interface OnPersonasConMotosListener {
+        void onPersonasConMotosLoaded(List<Persona.ResposableConMotos> personas);
 
         void onError(Exception e);
     }

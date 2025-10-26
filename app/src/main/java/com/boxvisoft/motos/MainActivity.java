@@ -209,8 +209,8 @@ public class MainActivity extends AppCompatActivity {
         btnBike = findViewById(R.id.btnBike);
         btnToday = findViewById(R.id.btnToday);
 
-//        btnPersonas.setOnClickListener(view -> abrirPersonas());
-        btnPersonas.setVisibility(View.GONE);
+        btnPersonas.setOnClickListener(view -> abrirPersonas());
+//        btnPersonas.setVisibility(View.GONE);
 
         btnBike.setOnClickListener(view -> abrirMotos());
 
@@ -326,9 +326,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void abrirPersonas() {
-//        Intent intent = new Intent(this, PersonasActivity.class);
-//        startActivity(intent);
-//        finish();
+        Intent intent = new Intent(this, PersonasActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void abrirHoy() {

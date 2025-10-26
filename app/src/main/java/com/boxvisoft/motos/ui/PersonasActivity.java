@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.boxvisoft.motos.MainActivity;
 import com.boxvisoft.motos.R;
 import com.boxvisoft.motos.adapter.ListaPersonasAdapter;
+import com.boxvisoft.motos.adapter.ResponsableMotosAdapter;
 import com.boxvisoft.motos.controller.MotosController;
 import com.boxvisoft.motos.controller.Persona;
 
@@ -34,7 +35,7 @@ public class PersonasActivity extends AppCompatActivity {
 
         starApp();
 
-        informacion();
+//        informacion();
 
     }
 
@@ -43,7 +44,32 @@ public class PersonasActivity extends AppCompatActivity {
 
         motosController = new MotosController();
 
+        cargarResponsableConMotos();
+
     }
+
+    private void cargarResponsableConMotos() {
+        motosController.getPersonasConMotosAgrupadas(
+                new MotosController.OnPersonasConMotosListener() {
+                    @Override
+                    public void onPersonasConMotosLoaded(List<Persona.ResposableConMotos> personas) {
+
+                        ResponsableMotosAdapter adapter = new ResponsableMotosAdapter(personas);
+                        registrosPersonas.setLayoutManager(new LinearLayoutManager(PersonasActivity.this));
+                        registrosPersonas.setAdapter(adapter);
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }
+
+
+        );
+    }
+
 
     private void informacion() {
 
